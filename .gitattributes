@@ -1,0 +1,15 @@
+# Auto detect text files and perform LF normalization
+* text=auto
+
+# Exclude repo metadata, agent configs, CI workflows, and dev-only tooling
+# config/tests from release archives (release.yml also whitelists explicit
+# paths itself, so this mainly governs GitHub's automatic source-zip links).
+# TAC/ itself IS the shippable addon folder, so only its dev-only
+# sub-folders are excluded here, not TAC/ as a whole.
+.gitattributes export-ignore
+.gitignore export-ignore
+.github export-ignore
+.agents export-ignore
+TAC/util export-ignore
+TAC/tests export-ignore
+

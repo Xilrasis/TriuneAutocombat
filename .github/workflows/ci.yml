@@ -1,0 +1,79 @@
+name: CI
+
+on:
+  push:
+    branches: ['**']
+  pull_request:
+
+jobs:
+  lua-syntax:
+    name: LuaJIT syntax check
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install LuaJIT
+        run: sudo apt-get update && sudo apt-get install -y luajit
+
+      - name: Bytecode-compile all Lua files
+        run: |
+          fail=0
+          while IFS= read -r f; do
+            if ! luajit -bl "$f" > /dev/null 2>err.log; then
+              echo "::error file=$f::LuaJIT syntax error"
+              cat err.log
+              fail=1
+            else
+              echo "OK: $f"
+            fi
+          done < <(find TAC -name '*.lua' -type f)
+          exit $fail
+
+  version-sync:
+    name: Version consistency
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Extract versions
+        id: ver
+        run: |
+          MAIN=$(grep -oP "^local VERSION\s+= '\K[^']+" TAC/tac.lua)
+          README=$(grep -oP "Current version: \*\*\K[^*]+" TAC/README.md)
+          echo "main=$MAIN"     >> "$GITHUB_OUTPUT"
+          echo "readme=$README" >> "$GITHUB_OUTPUT"
+          echo "tac.lua=$MAIN | README.md=$README"
+
+      - name: Fail on version drift
+        run: |
+          if [ "${{ steps.ver.outputs.main }}" != "${{ steps.ver.outputs.readme }}" ]; then
+            echo "::error::Version mismatch — TAC/tac.lua (${{ steps.ver.outputs.main }}) and TAC/README.md (${{ steps.ver.outputs.readme }}) must carry the same version."
+            exit 1
+          fi
+          echo "All versions in sync: ${{ steps.ver.outputs.main }}"
+
+  luacheck:
+    name: Luacheck static analysis
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Luacheck
+        run: |
+          sudo apt-get update && sudo apt-get install -y lua5.1 luarocks
+          sudo luarocks install luacheck
+
+      - name: Run Luacheck
+        run: luacheck TAC --config TAC/util/.luacheckrc
+
+  unit-tests:
+    name: Pure-logic unit tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install LuaJIT
+        run: sudo apt-get update && sudo apt-get install -y luajit
+
+      - name: Run unit tests
+        run: luajit TAC/tests/test_pure_logic.lua

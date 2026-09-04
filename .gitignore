@@ -1,0 +1,3 @@
+# Local Claude Code config: personal hooks (machine-specific paths) and
+# per-machine settings overrides. Shared agent guidance lives in .agents/.
+.claude/
