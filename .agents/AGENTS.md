@@ -35,10 +35,11 @@ old "must stay standalone" rule automatically still applies.
 | `TAC/tests/test_pure_logic.lua` | Pure-logic unit tests (no MQ dependency); dev-only, run via `luajit TAC/tests/test_pure_logic.lua` from the repo root. |
 | `TAC/util/.luacheckrc` | Luacheck config; dev-only. Run via `luacheck TAC --config TAC/util/.luacheckrc` from the repo root. |
 | `TAC/util/.luarc.json` | Lua-language-server config; dev-only, for editor tooling. |
-| `TAC/CHANGELOG.md` | Full history of changes, newest date first. |
-| `TAC/README.md` | User-facing documentation including commands, features, file structure. |
+| `CHANGELOG.md` | Full history of changes, newest date first. (Repo root.) |
+| `README.md` | User-facing documentation including commands, features, file structure. (Repo root.) |
+| `LICENSE` | MIT. (Repo root.) |
 
-> **Note:** the repo root holds only `TAC/`, and `TAC/` mixes runtime files with dev-only ones — only `TAC/init.lua`, `TAC/tac.lua`, and `TAC/config/` actually run in-game; `TAC/tests/` and `TAC/util/` never ship. `.github/workflows/release.yml` archives `TAC/` for the release zip while excluding `TAC/tests` and `TAC/util`, so a release download and a source checkout both give you `<MacroQuest Root>/lua/TAC/` by copying (or extracting) the `TAC/` folder as-is.
+> **Note:** the repo root holds `TAC/` plus the docs (`README.md`, `CHANGELOG.md`, `LICENSE`). `TAC/` mixes runtime files with dev-only ones — only `TAC/init.lua`, `TAC/tac.lua`, and `TAC/config/` actually run in-game; `TAC/tests/` and `TAC/util/` never ship. `.github/workflows/release.yml` archives `TAC/` (minus tests/util) plus the three top-level docs into the release zip, so `<MacroQuest Root>/lua/TAC/` comes from copying/extracting the `TAC/` folder as-is.
 >
 > **Note:** `triune_loadout.lua` is written to the MQ config directory at runtime — it is NOT in this repo.
 >
@@ -96,12 +97,12 @@ The canonical version is defined in `TAC/tac.lua`:
 local VERSION           = '1.6.12'
 ```
 
-The README (`TAC/README.md`) must always reflect this value:
+The README (`README.md`, repo root) must always reflect this value:
 ```markdown
 Current version: **1.6.12**
 ```
 
-When you bump the version, update `TAC/tac.lua` and `TAC/README.md`.
+When you bump the version, update `TAC/tac.lua` and `README.md`.
 CI (`.github/workflows/ci.yml`) fails if these two drift apart.
 
 ### Binary Files Policy (Do NOT use Git LFS)

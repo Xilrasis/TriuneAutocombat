@@ -39,7 +39,7 @@ jobs:
         id: ver
         run: |
           MAIN=$(grep -oP "^local VERSION\s+= '\K[^']+" TAC/tac.lua)
-          README=$(grep -oP "Current version: \*\*\K[^*]+" TAC/README.md)
+          README=$(grep -oP "Current version: \*\*\K[^*]+" README.md)
           echo "main=$MAIN"     >> "$GITHUB_OUTPUT"
           echo "readme=$README" >> "$GITHUB_OUTPUT"
           echo "tac.lua=$MAIN | README.md=$README"
@@ -47,7 +47,7 @@ jobs:
       - name: Fail on version drift
         run: |
           if [ "${{ steps.ver.outputs.main }}" != "${{ steps.ver.outputs.readme }}" ]; then
-            echo "::error::Version mismatch — TAC/tac.lua (${{ steps.ver.outputs.main }}) and TAC/README.md (${{ steps.ver.outputs.readme }}) must carry the same version."
+            echo "::error::Version mismatch — TAC/tac.lua (${{ steps.ver.outputs.main }}) and README.md (${{ steps.ver.outputs.readme }}) must carry the same version."
             exit 1
           fi
           echo "All versions in sync: ${{ steps.ver.outputs.main }}"

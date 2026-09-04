@@ -25,7 +25,7 @@ jobs:
       - name: Generate Release Notes & Instructions
         run: |
           python3 - << 'EOF'
-          with open('TAC/CHANGELOG.md', 'r', encoding='utf-8') as f:
+          with open('CHANGELOG.md', 'r', encoding='utf-8') as f:
               content = f.read()
 
           # Extract latest release entry from top up to first '---' section separator
@@ -72,10 +72,12 @@ jobs:
 
       - name: Package Release Archive
         run: |
-          # TAC/ is already laid out exactly as it should be dropped into a
-          # MacroQuest install's lua/ folder. TAC/tests and TAC/util are
-          # dev-only and excluded from the shipped zip.
-          git archive --format=zip -o TriuneAutocombat.zip HEAD -- TAC ':(exclude)TAC/tests' ':(exclude)TAC/util'
+          # TAC/ drops straight into a MacroQuest install's lua/ folder.
+          # TAC/tests and TAC/util are dev-only and excluded. The top-level
+          # README / CHANGELOG / LICENSE ride along in the zip for reference.
+          git archive --format=zip -o TriuneAutocombat.zip HEAD -- \
+            TAC README.md CHANGELOG.md LICENSE \
+            ':(exclude)TAC/tests' ':(exclude)TAC/util'
 
       - name: Create or Update Release
         uses: softprops/action-gh-release@v2

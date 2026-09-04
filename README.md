@@ -174,21 +174,22 @@ You can control almost everything using simple in-game chat commands:
 
 ```
 TriuneAutocombat/              # Repo root
-└── TAC/                       # ← this IS the folder you deploy
-    ├── init.lua                   # Entry point (delegates to tac.lua)
-    ├── tac.lua                    # Main autocombat engine, UI, and Mini HUD
+├── README.md                     # This guide
+├── CHANGELOG.md                  # Detailed update and change history
+├── LICENSE                       # MIT
+└── TAC/                          # ← this IS the folder you deploy
+    ├── init.lua                      # Entry point (delegates to tac.lua)
+    ├── tac.lua                       # Main autocombat engine, UI, and Mini HUD
     ├── config/
-    │   └── triune_data.lua        # Spell and ability database
-    ├── tests/                     # Pure-logic unit tests (dev-only)
+    │   └── triune_data.lua           # Spell and ability database
+    ├── tests/                        # Pure-logic unit tests (dev-only)
     │   └── test_pure_logic.lua
-    ├── util/                      # Dev tooling config (dev-only)
-    │   ├── .luacheckrc
-    │   └── .luarc.json
-    ├── README.md                  # This guide!
-    └── CHANGELOG.md               # Detailed update and change history
+    └── util/                         # Dev tooling config (dev-only)
+        ├── .luacheckrc
+        └── .luarc.json
 ```
 
-> **Note:** The repo root just holds a single `TAC/` folder, and `TAC/` is exactly what gets deployed — drop it straight into your MacroQuest install's `lua/` folder (giving you `<MacroQuest Root>/lua/TAC/`), whether you got it from a release zip or a source checkout. Only `TAC/tests/` and `TAC/util/` are dev-only and never shipped in the release zip (see Quick Start above); everything else inside `TAC/` — including this README and the changelog — travels with it. Once deployed, `/lua run TAC` starts it (or `/lua run TAC/tac` to run the engine directly, bypassing `init.lua`).
+> **Note:** `TAC/` is exactly what gets deployed — drop it straight into your MacroQuest install's `lua/` folder (giving you `<MacroQuest Root>/lua/TAC/`), whether you got it from a release zip or a source checkout. Only `TAC/tests/` and `TAC/util/` are dev-only and never run in-game. Once deployed, `/lua run TAC` starts it (or `/lua run TAC/tac` to run the engine directly, bypassing `init.lua`). The release zip also carries this README, the changelog, and the license alongside `TAC/` for reference.
 
 > **Note:** Your personal character settings and loadouts are automatically saved to `triune_loadout.lua` in your MacroQuest config directory, so updates will never overwrite your setups.
 
@@ -199,6 +200,12 @@ TriuneAutocombat/              # Repo root
 - **GitHub Releases (Latest Downloads)**: [https://github.com/Xilrasis/TriuneAutocombat/releases/latest](https://github.com/Xilrasis/TriuneAutocombat/releases/latest)
 - **Project Triune Website & Database (PTDex)**: [https://nms.bestemu.com/](https://nms.bestemu.com/)
 - **MacroQuest**: [https://macroquest.org/](https://macroquest.org/)
+
+---
+
+## License
+
+MIT — see [LICENSE](LICENSE). Free to use, modify, and redistribute.
 
 ---
 

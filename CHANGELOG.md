@@ -1,5 +1,9 @@
 # Triune AutoCombat Change Log
 
+## 2026-09-04
+
+- **Repository reset + licensing.** History was rebuilt from scratch (the old fork carried ~2 GB of bundled navmesh/ItemDB blobs); this is now a standalone, non-fork repo starting at v1.7.16. Added an **MIT `LICENSE`**. `README.md` and `CHANGELOG.md` moved from `TAC/` to the repo root; CI version-sync and the release workflow updated to match, and the release zip now also carries the three top-level docs alongside `TAC/`.
+
 ## 2026-09-03
 
 - **Started decomposing `combatTick()` (v1.7.16):** the ~1,500-line main combat function had ~65 lines of out-of-combat Med Break logic inline. Lifted it into `runtime.medBreakTick()` — a faithful move, same behavior, returns true when a break is holding. First slice of a larger breakup; the per-mode targeting and loadout-execution blocks stay put for now (better handled as a deliberate redesign).
